@@ -38,8 +38,6 @@ public class CategoryRepository {
         return new ArrayList<Category>(map.values());
     }
 
-    public List<Category> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); 
-    }
+    
     
 }
