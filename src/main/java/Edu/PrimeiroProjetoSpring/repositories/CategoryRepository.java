@@ -9,10 +9,12 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 /**
- * 9 -Criado a classe de acesso a dados de Categoria com anotação @Component
+ * 9 -Criado a classe de acesso a dados de Categoria com anotação @Component para informar que essa classe está sujeita a injeção de dependência.
  * 
  * 10 - Criar métodos Salvar, busca por ID e busca todos os objetos (acesso ao DB).
  * @author EDU
+ * 
+ * 11 - Ir para os Recursos e trocar o obj instanciado pela classe de acesso aos dados (Repository).
  */
 
 @Component
@@ -34,6 +36,10 @@ public class CategoryRepository {
     public List<Category> findAll(Long id){
     //Retorna um ArrayList com os ojetos do map.    
         return new ArrayList<Category>(map.values());
+    }
+
+    public List<Category> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
 }
