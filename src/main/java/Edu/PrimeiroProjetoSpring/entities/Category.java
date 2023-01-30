@@ -4,6 +4,7 @@
  */
 package Edu.PrimeiroProjetoSpring.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,8 @@ public class Category implements Serializable {
     
     private Long id;
     private String name;
-// Acrescentado a lista de produtos da categoria.
+// Acrescentado a lista de produtos da categoria e evitando ciclo de consulta com a anotação @JsonIgnore.
+    @JsonIgnore
     private List<Product> produtos = new ArrayList<>();
     
 
