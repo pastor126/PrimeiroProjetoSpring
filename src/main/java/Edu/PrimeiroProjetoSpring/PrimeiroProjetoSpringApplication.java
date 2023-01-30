@@ -3,6 +3,7 @@ package Edu.PrimeiroProjetoSpring;
 import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.entities.Product;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
+import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +18,9 @@ public class PrimeiroProjetoSpringApplication implements CommandLineRunner {
     // 14 - Injetar dependência para instanciar o categoryRepository com o @Autowired.
         @Autowired
         private CategoryRepository categoryRepository;
+    // Inserindo o ProductRepository.    
+        @Autowired
+        private ProductRepository ProductRepository;
         
 
 	public static void main(String[] args) {
@@ -45,6 +49,12 @@ public class PrimeiroProjetoSpringApplication implements CommandLineRunner {
         categoryRepository.save(cat2);
         categoryRepository.save(cat3);
         
+    //Salvando as instâncias de Produtos.    
+        ProductRepository.save(p1);
+        ProductRepository.save(p2);
+        ProductRepository.save(p3);
+        ProductRepository.save(p4);
+        ProductRepository.save(p5);
         
     }
 
