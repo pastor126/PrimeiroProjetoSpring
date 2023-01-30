@@ -33,7 +33,7 @@ public class CategoryRepository {
         return map.get(id);
     }
     
-    public List<Category> findAll(Long id){
+    public List<Category> findAll(){
     //Retorna um ArrayList com os ojetos do map.    
         return new ArrayList<Category>(map.values());
     }
