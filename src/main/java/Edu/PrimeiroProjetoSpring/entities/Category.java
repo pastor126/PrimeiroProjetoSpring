@@ -5,6 +5,8 @@
 package Edu.PrimeiroProjetoSpring.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -23,6 +25,9 @@ public class Category implements Serializable {
     
     private Long id;
     private String name;
+// Acrescentado a lista de produtos da categoria.
+    private List<Product> produtos = new ArrayList<>();
+    
 
     public Category() {
     }
@@ -47,6 +52,11 @@ public class Category implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public List<Product> getProdutos() {
+        return produtos;
+    }
+
 
     @Override
     public int hashCode() {
@@ -72,6 +82,8 @@ public class Category implements Serializable {
         }
         return Objects.equals(this.id, other.id);
     }
+
+
 
  
     
