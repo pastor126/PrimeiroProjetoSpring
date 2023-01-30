@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
  * 9 - Criar a classe CategoryRepository responsavel pelo acesso aos dados de CATEGORIA
  * 
  * 12 - Injetar a dependência entre o recurso e o repositório pelo @AutoWired criando uma instância do repositório.
+ * 
+ * 13 - Para testar basta instanciar objetos na classe principal.
  * @author EDU
  */
 
