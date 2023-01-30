@@ -2,9 +2,9 @@
 package Edu.PrimeiroProjetoSpring.resources;
 
 import Edu.PrimeiroProjetoSpring.entities.Category;
-import java.util.ArrayList;
-import static java.util.Collections.list;
+import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,31 +23,34 @@ import org.springframework.web.bind.annotation.RestController;
  * 8 - Criar o método de busca para único objeto usando anotação @PathVariable para informar o objeto.
  * 
  * 9 - Criar a classe CategoryRepository responsavel pelo acesso aos dados de CATEGORIA
+ * 
+ * 12 - Injetar a dependência entre o recurso e o repositório pelo @AutoWired criando uma instância do repositório.
  * @author EDU
  */
 
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryResource {
+//-12 a- 
+    @Autowired
+    private CategoryRepository categoryRepository;
+    
 // -7- Recebendo requisição pelo "/categories" o ResponseEntity devolve uma lista de CATEGORIAS.    
     @GetMapping
     public ResponseEntity<List<Category>> findAll(){
-// Para teste foi criado um ArrayList de categorias.
-        ArrayList<Category> lista = new ArrayList<>();
-        lista.add(new Category(1L, "Eletrônicos"));
-        lista.add(new Category(2L, "Livros"));
+// -12 b-
+        List<Category> lista = categoryRepository.findAll();
         return ResponseEntity.ok().body(lista);
     }
 // -8- Recebendo requisição pela variável "/{id}"    
     @GetMapping(value = "/{id}")
     public ResponseEntity<Category> findById(@PathVariable Long id){
-// Para teste instancio um objeto cat.
-        Category cat = new Category (1L, "Eletrônicos");
+// -12 c-
+        Category cat = categoryRepository.findById(id);
         return ResponseEntity.ok().body(cat);
     }
     
     
-
 
 
 
