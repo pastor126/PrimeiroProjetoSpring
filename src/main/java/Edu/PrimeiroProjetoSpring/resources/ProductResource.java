@@ -49,7 +49,8 @@ public class ProductResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id){
 // -12 c-
-        Product pdt = ProductRepository.findById(id);
+// No Jpa é necessário o .get() pois o findById retorna um optional e o get busca o que está informado (id).
+        Product pdt = ProductRepository.findById(id).get();
         return ResponseEntity.ok().body(pdt);
     }
     
