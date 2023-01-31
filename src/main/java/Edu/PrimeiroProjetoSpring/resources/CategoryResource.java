@@ -48,7 +48,8 @@ public class CategoryResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Category> findById(@PathVariable Long id){
 // -12 c-
-        Category cat = categoryRepository.findById(id);
+// No Jpa é necessário o .get() pois o findById retorna um optional e o get busca o que está informado (id).
+        Category cat = categoryRepository.findById(id).get();
         return ResponseEntity.ok().body(cat);
     }
     
