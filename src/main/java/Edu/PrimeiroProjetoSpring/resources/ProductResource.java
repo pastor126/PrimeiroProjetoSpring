@@ -38,6 +38,10 @@ public class ProductResource {
     @Autowired
     private ProductRepository ProductRepository;
     
+//     public List<Product> findAll(){
+//        return ProductRepository.findAll();
+//    }
+    
 // -7- Recebendo requisição pelo "/categories" o ResponseEntity devolve uma lista de CATEGORIAS.    
     @GetMapping
     public ResponseEntity<List<Product>> findAll(){
