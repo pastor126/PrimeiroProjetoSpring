@@ -1,10 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Edu.PrimeiroProjetoSpring.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +22,23 @@ import java.util.Objects;
  * 4 - Criar classe Resource da CATEGORIA
  * @author EDU
  */
+//Fazendo o relacionamento para o DB (***)
+//*** Informo que Produto é uma entidade.
+@Entity
 public class Category implements Serializable {
     
     private static final long serialVersionUID =1L;
     
+    // *** Informo que o ID é a chave primária.
+    @Id
+// *** Informando que será autoincrementável no DB.    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 // Acrescentado a lista de produtos da categoria e evitando ciclo de consulta com a anotação @JsonIgnore.
     @JsonIgnore
+// Mapeando a lista de produtos para o DB informandos o relacionamento um pra muitos informando o atributo categoria do produto.   
+    @OneToMany(mappedBy = "categoria")
     private List<Product> produtos = new ArrayList<>();
     
 
