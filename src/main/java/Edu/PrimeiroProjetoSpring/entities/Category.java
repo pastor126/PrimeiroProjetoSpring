@@ -38,7 +38,7 @@ public class Category implements Serializable {
 // Acrescentado a lista de produtos da categoria e evitando ciclo de consulta com a anotação @JsonIgnore.
     @JsonIgnore
 // Mapeando a lista de produtos para o DB informandos o relacionamento um pra muitos informando o atributo categoria do produto.   
-    @OneToMany(mappedBy = "categoria")
+    @OneToMany(mappedBy = "category")
     private List<Product> produtos = new ArrayList<>();
     
 
