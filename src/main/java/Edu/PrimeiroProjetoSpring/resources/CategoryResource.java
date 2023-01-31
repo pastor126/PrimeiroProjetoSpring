@@ -3,6 +3,8 @@ package Edu.PrimeiroProjetoSpring.resources;
 
 import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
+import Edu.PrimeiroProjetoSpring.services.CategoryService;
+import static java.util.Collections.list;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,21 +37,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class CategoryResource {
 //-12 a- 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private CategoryService service;
     
-// -7- Recebendo requisição pelo "/categories" o ResponseEntity devolve uma lista de CATEGORIAS.    
+
     @GetMapping
     public ResponseEntity<List<Category>> findAll(){
-// -12 b-
-        List<Category> lista = categoryRepository.findAll();
-        return ResponseEntity.ok().body(lista);
+        List<Category> list = service.findAll();
+        return ResponseEntity.ok().body(list);
     }
 // -8- Recebendo requisição pela variável "/{id}"    
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Category> findById(@PathVariable Long id){
+    public ResponseEntity<Category> findById(@PathVariable int id){
+        Category cat = service.findAll().get(id-1);
 // -12 c-
 // No Jpa é necessário o .get() pois o findById retorna um optional e o get busca o que está informado (id).
-        Category cat = categoryRepository.findById(id).get();
+
         return ResponseEntity.ok().body(cat);
     }
     
