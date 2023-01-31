@@ -29,15 +29,16 @@ public class PrimeiroProjetoSpringApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Category cat1 = new Category(1L, "Eletrônicos");
-        Category cat2 = new Category(2L, "Livros");
-        Category cat3 = new Category(3L, "Roupa de cama");
+//*** Deixando os ID nulos para que o DB incremente.
+        Category cat1 = new Category(null, "Eletrônicos");
+        Category cat2 = new Category(null, "Livros");
+        Category cat3 = new Category(null, "Roupa de cama");
         
-        Product p1 = new Product(1L, "TV LB5600", 3000.00, cat1);
-        Product p2 = new Product(2L, "SunTzu", 40.00, cat2);
-        Product p3 = new Product(3L, "IPHONE X", 6000.00, cat1);
-        Product p4 = new Product(4L, "Xeque-Mate", 55.00, cat2);
-        Product p5 = new Product(5L, "Lençol TEKA", 85.00, cat3);
+        Product p1 = new Product(null, "TV LB5600", 3000.00, cat1);
+        Product p2 = new Product(null, "SunTzu", 40.00, cat2);
+        Product p3 = new Product(null, "IPHONE X", 6000.00, cat1);
+        Product p4 = new Product(null, "Xeque-Mate", 55.00, cat2);
+        Product p5 = new Product(null, "Lençol TEKA", 85.00, cat3);
     
     // Referenciar os produtos de cada categoria criando uma lista.
         cat1.getProdutos().addAll(Arrays.asList(p1,p3));
