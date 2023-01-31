@@ -1,18 +1,36 @@
 
 package Edu.PrimeiroProjetoSpring.entities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Criando Classe Produto.
+ * 
+ * 
  * @author EDU
  */
+//Fazendo o relacionamento para o DB (***)
+//*** Informo que Produto é uma entidade.
+@Entity
 public class Product implements Serializable{
     private static final Long serialVersionUID = 1L;
+// *** Informo que o ID é a chave primária.
+    @Id
+// *** Informando que será autoincrementável no DB.    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private Double price;
+// *** Informando que o Id da Categoria é chave extrangeira com relação muitos para um.
+    @ManyToOne
+    @JoinColumn(name = "category_id")
     private Category categoria;
 
     public Product() {
