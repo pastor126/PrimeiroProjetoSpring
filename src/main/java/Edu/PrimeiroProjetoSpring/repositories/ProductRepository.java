@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 /**
  * 9 -Criado a classe de acesso a dados de Categoria com anotação @Component para informar que essa classe está sujeita a injeção de dependência.
@@ -17,26 +19,10 @@ import org.springframework.stereotype.Component;
  * 11 - Ir para os Recursos e trocar o obj instanciado pela classe de acesso aos dados (Repository).
  */
 
-@Component
-public class ProductRepository {
-    //Para teste inseriu um Map de Categorias (sem BD por enquanto).
-    private Map<Long, Product> map = new HashMap<>();
-    
-    
-    public void save(Product obj){
-    //Adiciona (put) ao map o objeto recebido (id e o próprio objeto)    
-        map.put(obj.getId(), obj);
-    }
-    
-    public Product findById(Long id){
-    //Retorna o objeto do map pelo id.    
-        return map.get(id);
-    }
-    
-    public List<Product> findAll(){
-    //Retorna um ArrayList com os ojetos do map.    
-        return new ArrayList<Product>(map.values());
-    }
+//Transformando o repositório em uma interface e a implementação dos métodos fica com o JpaRepository informando o tipo do objeto e o tipo do ID.
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> { 
 
     
     
