@@ -31,24 +31,24 @@ public class Product implements Serializable{
 // *** Informando que o Id da Categoria é chave extrangeira com relação muitos para um.
     @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category categoria;
+    private Category category;
 
     public Product() {
     }
 
-    public Product(Long id, String name, Double price, Category categoria) {
+    public Product(Long id, String name, Double price, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.categoria = categoria;
+        this.category = category;
     }
 
-    public Category getCategoria() {
-        return categoria;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoria(Category categoria) {
-        this.categoria = categoria;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Long getId() {
@@ -103,7 +103,7 @@ public class Product implements Serializable{
         if (!Objects.equals(this.price, other.price)) {
             return false;
         }
-        return Objects.equals(this.categoria, other.categoria);
+        return Objects.equals(this.category, other.category);
     }
     
     
