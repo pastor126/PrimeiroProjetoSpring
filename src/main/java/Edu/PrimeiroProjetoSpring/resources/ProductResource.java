@@ -1,8 +1,10 @@
 
 package Edu.PrimeiroProjetoSpring.resources;
 
+import Edu.PrimeiroProjetoSpring.dto.ProductDTO;
 import Edu.PrimeiroProjetoSpring.entities.Product;
 import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
+import Edu.PrimeiroProjetoSpring.services.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductResource {
 //-12 a- 
     @Autowired
-    private ProductRepository ProductRepository;
+    private ProductService service;
     
 //     public List<Product> findAll(){
 //        return ProductRepository.findAll();
@@ -44,17 +46,17 @@ public class ProductResource {
     
 // -7- Recebendo requisição pelo "/categories" o ResponseEntity devolve uma lista de CATEGORIAS.    
     @GetMapping
-    public ResponseEntity<List<Product>> findAll(){
+    public ResponseEntity<List<ProductDTO>> findAll(){
 // -12 b-
-        List<Product> lista = ProductRepository.findAll();
+        List<ProductDTO> lista = service.findAll();
+        
+        
         return ResponseEntity.ok().body(lista);
     }
 // -8- Recebendo requisição pela variável "/{id}"    
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id){
-// -12 c-
-// No Jpa é necessário o .get() pois o findById retorna um optional e o get busca o que está informado (id).
-        Product pdt = ProductRepository.findById(id).get();
+    public ResponseEntity<ProductDTO> findById(@PathVariable int id){
+        ProductDTO pdt = service.findAll().get(id-1);
         return ResponseEntity.ok().body(pdt);
     }
     
