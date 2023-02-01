@@ -1,6 +1,7 @@
 
 package Edu.PrimeiroProjetoSpring.resources;
 
+import Edu.PrimeiroProjetoSpring.dto.CategoryDTO;
 import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
 import Edu.PrimeiroProjetoSpring.services.CategoryService;
@@ -41,14 +42,14 @@ public class CategoryResource {
     
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll(){
-        List<Category> list = service.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll(){
+        List<CategoryDTO> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 // -8- Recebendo requisição pela variável "/{id}"    
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Category> findById(@PathVariable int id){
-        Category cat = service.findAll().get(id-1);
+    public ResponseEntity<CategoryDTO> findById(@PathVariable int id){
+        CategoryDTO cat = service.findAll().get(id-1);
 // -12 c-
 // No Jpa é necessário o .get() pois o findById retorna um optional e o get busca o que está informado (id).
 
