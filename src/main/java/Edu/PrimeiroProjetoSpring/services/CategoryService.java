@@ -1,8 +1,10 @@
 
 package Edu.PrimeiroProjetoSpring.services;
 
+import Edu.PrimeiroProjetoSpring.dto.CategoryDTO;
 import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,14 @@ public class CategoryService {
     private CategoryRepository repository;
     
     @Transactional(readOnly = true)
-    public List<Category>findAll() {
-       return repository.findAll();
+    public List<CategoryDTO>findAll() {
+      List<Category> list = repository.findAll();
+        
+       List<CategoryDTO> listDTO = new ArrayList<>();
+       for(Category cat : list){
+           listDTO.add(new CategoryDTO(cat));
+       }
+       return listDTO;
     }
     
 }
