@@ -25,6 +25,7 @@ import java.util.Objects;
 //Fazendo o relacionamento para o DB (***)
 //*** Informo que Produto é uma entidade.
 @Entity
+
 public class Category implements Serializable {
     
     private static final long serialVersionUID =1L;
