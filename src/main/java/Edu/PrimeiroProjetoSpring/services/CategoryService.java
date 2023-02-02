@@ -6,6 +6,7 @@ import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +30,13 @@ public class CategoryService {
            listDTO.add(new CategoryDTO(cat));
        }
        return listDTO;
+    }
+    
+    @Transactional(readOnly = true)
+    public CategoryDTO finById(Long id) {
+        Optional<Category> cat = repository.findById(id);
+        Category entity = cat.get();
+        return new CategoryDTO(entity);
     }
     
 }
