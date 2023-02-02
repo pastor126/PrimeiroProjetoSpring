@@ -4,7 +4,8 @@ package Edu.PrimeiroProjetoSpring.services;
 import Edu.PrimeiroProjetoSpring.dto.CategoryDTO;
 import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
-import Edu.PrimeiroProjetoSpring.services.exceptions.EntityNotFoundException;
+import Edu.PrimeiroProjetoSpring.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO finById(Long id) {
         Optional<Category> cat = repository.findById(id);
-        Category entity = cat.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        Category entity = cat.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new CategoryDTO(entity);
     }
 
@@ -48,5 +49,17 @@ public class CategoryService {
         repository.save(entity);
         return new CategoryDTO(entity);
     }
-    
+
+    @Transactional
+    public CategoryDTO update(Long id, CategoryDTO dto) {
+     try{
+        Category entity = repository.getReferenceById(id);
+        entity.setName(dto.getName());
+        entity = repository.save(entity);
+        return new CategoryDTO(entity);
+      }
+     catch (EntityNotFoundException e){
+        throw new ResourceNotFoundException("Id não encontrado " + id);
+      }
+    }
 }
