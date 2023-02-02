@@ -26,11 +26,11 @@ public class ProductDTO implements Serializable{
         this.category = category;
     }
 
-    
-    
     public ProductDTO(Product entity){
         this.id = entity.getId();
         this.name = entity.getName();
+        this.price = entity.getPrice();
+        this.category = entity.getCategory();
     }
 
     public Long getId() {
