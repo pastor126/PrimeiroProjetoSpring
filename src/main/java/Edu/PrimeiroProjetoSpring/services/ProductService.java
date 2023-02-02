@@ -4,7 +4,8 @@ package Edu.PrimeiroProjetoSpring.services;
 import Edu.PrimeiroProjetoSpring.dto.ProductDTO;
 import Edu.PrimeiroProjetoSpring.entities.Product;
 import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
-import Edu.PrimeiroProjetoSpring.services.exceptions.EntityNotFoundException;
+import Edu.PrimeiroProjetoSpring.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.List;
@@ -35,7 +36,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductDTO finById(Long id) {
         Optional<Product> pdt = repository.findById(id);
-        Product entity = pdt.orElseThrow(() -> new EntityNotFoundException("Requisição não emcontrada."));
+        Product entity = pdt.orElseThrow(() -> new ResourceNotFoundException("Requisição não emcontrada."));
         return new ProductDTO(entity);
     }
     @Transactional
@@ -47,4 +48,18 @@ public class ProductService {
         repository.save(entity);
         return new ProductDTO(entity);
     }
+
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto) {
+     try{
+        Product entity = repository.getReferenceById(id);
+        entity.setName(dto.getName());
+        entity = repository.save(entity);
+        return new ProductDTO(entity);
+      }
+     catch (EntityNotFoundException e){
+        throw new ResourceNotFoundException("Id não encontrado " + id);
+      }
+    }
 }
+
