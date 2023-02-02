@@ -48,8 +48,8 @@ public class CategoryResource {
     }
 // -8- Recebendo requisição pela variável "/{id}"    
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CategoryDTO> findById(@PathVariable int id){
-        CategoryDTO cat = service.findAll().get(id-1);
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
+        CategoryDTO cat = service.finById(id);
 // -12 c-
 // No Jpa é necessário o .get() pois o findById retorna um optional e o get busca o que está informado (id).
 
