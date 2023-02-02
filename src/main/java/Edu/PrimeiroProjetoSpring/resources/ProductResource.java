@@ -55,8 +55,8 @@ public class ProductResource {
     }
 // -8- Recebendo requisição pela variável "/{id}"    
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable int id){
-        ProductDTO pdt = service.findAll().get(id-1);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id){
+        ProductDTO pdt = service.finById(id);
         return ResponseEntity.ok().body(pdt);
     }
     
