@@ -38,4 +38,13 @@ public class ProductService {
         Product entity = pdt.orElseThrow(() -> new EntityNotFoundException("Requisição não emcontrada."));
         return new ProductDTO(entity);
     }
+    @Transactional
+    public ProductDTO insert(ProductDTO dto) {
+        Product entity = new Product();
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setCategory(dto.getCategory());
+        repository.save(entity);
+        return new ProductDTO(entity);
+    }
 }
