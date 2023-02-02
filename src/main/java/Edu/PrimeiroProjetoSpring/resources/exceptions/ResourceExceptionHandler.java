@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import Edu.PrimeiroProjetoSpring.services.exceptions.EntityNotFoundException;
+import Edu.PrimeiroProjetoSpring.services.exceptions.ResourceNotFoundException;
 
 // Obs.: import javax não funcionou.
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,8 +23,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class ResourceExceptionHandler {
  
 // Anotação para saber qual tipo de exceção vai interceptar.
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<StandardError> edu_entityNotFound(EntityNotFoundException e, HttpServletRequest request){
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<StandardError> edu_entityNotFound(ResourceNotFoundException e, HttpServletRequest request){
         StandardError err = new StandardError();
         err.setTimestemp(Instant.now());
         err.setStatus(HttpStatus.NOT_FOUND.value());
