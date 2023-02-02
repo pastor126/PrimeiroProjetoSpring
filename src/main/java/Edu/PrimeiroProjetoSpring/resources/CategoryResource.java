@@ -2,17 +2,18 @@
 package Edu.PrimeiroProjetoSpring.resources;
 
 import Edu.PrimeiroProjetoSpring.dto.CategoryDTO;
-import Edu.PrimeiroProjetoSpring.entities.Category;
-import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
 import Edu.PrimeiroProjetoSpring.services.CategoryService;
-import static java.util.Collections.list;
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * 4 - Criado classe de RECURSOS disponibilizados pela CATEGORIA.
@@ -56,6 +57,17 @@ public class CategoryResource {
         return ResponseEntity.ok().body(cat);
     }
     
+// Inserindo nova categoria de produto.
+// @PostMapping para inserção (método POST).    
+// @RequestBody para que a categoria inserida reconheça e case com o objeto dto.     
+
+    @PostMapping
+    public ResponseEntity<CategoryDTO> insert(@RequestBody CategoryDTO dto){
+        dto = service.insert(dto);
+ // URI variável java para recurso de internet (URL).       
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+       return ResponseEntity.ok().body(dto);
+    }
     
 
 
