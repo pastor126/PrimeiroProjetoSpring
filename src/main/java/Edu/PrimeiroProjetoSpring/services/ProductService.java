@@ -7,6 +7,7 @@ import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
 import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,10 @@ public class ProductService {
        return listDTO;
     }
 
-    public Object findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    @Transactional(readOnly = true)
+    public ProductDTO finById(Long id) {
+        Optional<Product> pdt = repository.findById(id);
+        Product entity = pdt.get();
+        return new ProductDTO(entity);
     }
 }
