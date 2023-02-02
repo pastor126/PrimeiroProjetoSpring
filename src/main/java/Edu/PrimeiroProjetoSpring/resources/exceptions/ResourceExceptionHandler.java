@@ -1,6 +1,7 @@
 
 package Edu.PrimeiroProjetoSpring.resources.exceptions;
 
+import Edu.PrimeiroProjetoSpring.services.exceptions.DatabaseException;
 import java.time.Instant;
 
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,17 @@ public class ResourceExceptionHandler {
         err.setError("Resource not found");
         err.setMessage(e.getMessage());
         err.setPath(request.getRequestURI());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
-        
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);       
+    }
+    
+        @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request){
+        StandardError err = new StandardError();
+        err.setTimestemp(Instant.now());
+        err.setStatus(HttpStatus.BAD_REQUEST.value());
+        err.setError("Database exception");
+        err.setMessage(e.getMessage());
+        err.setPath(request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);       
     }
 }
