@@ -1,4 +1,3 @@
-
 package Edu.PrimeiroProjetoSpring.services;
 
 import Edu.PrimeiroProjetoSpring.dto.CategoryDTO;
@@ -13,6 +12,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,20 +24,16 @@ import org.springframework.transaction.annotation.Transactional;
 // Construindo a camada de serviços independente dos recursos e repositórios.
 @Service
 public class CategoryService {
+
     @Autowired
     private CategoryRepository repository;
-    
+
     @Transactional(readOnly = true)
-    public List<CategoryDTO>findAll() {
-      List<Category> list = repository.findAll();
-        
-       List<CategoryDTO> listDTO = new ArrayList<>();
-       for(Category cat : list){
-           listDTO.add(new CategoryDTO(cat));
-       }
-       return listDTO;
+    public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+        Page<Category> list = repository.findAll(pageRequest);
+        return list.map(x -> new CategoryDTO(x));
     }
-    
+
     @Transactional(readOnly = true)
     public CategoryDTO finById(Long id) {
         Optional<Category> cat = repository.findById(id);
@@ -44,7 +41,6 @@ public class CategoryService {
         return new CategoryDTO(entity);
     }
 
-    
     @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
         Category entity = new Category();
@@ -55,26 +51,23 @@ public class CategoryService {
 
     @Transactional
     public CategoryDTO update(Long id, CategoryDTO dto) {
-     try{
-        Category entity = repository.getReferenceById(id);
-        entity.setName(dto.getName());
-        entity = repository.save(entity);
-        return new CategoryDTO(entity);
-      }
-     catch (EntityNotFoundException e){
-        throw new ResourceNotFoundException("Id não encontrado " + id);
-      }
+        try {
+            Category entity = repository.getReferenceById(id);
+            entity.setName(dto.getName());
+            entity = repository.save(entity);
+            return new CategoryDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id não encontrado " + id);
+        }
     }
 
     public void delete(Long id) {
-      try{
-        repository.deleteById(id);
-    }
-      catch(EmptyResultDataAccessException e){
-          throw new ResourceNotFoundException("Id não encontrado " + id);
-      }
-      catch(DataIntegrityViolationException e){
-          throw new DatabaseException("Violação de Integridade");
-      }
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException("Id não encontrado " + id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException("Violação de Integridade");
+        }
     }
 }
