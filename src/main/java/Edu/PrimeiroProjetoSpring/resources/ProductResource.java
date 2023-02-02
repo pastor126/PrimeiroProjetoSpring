@@ -5,13 +5,17 @@ import Edu.PrimeiroProjetoSpring.dto.ProductDTO;
 import Edu.PrimeiroProjetoSpring.entities.Product;
 import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
 import Edu.PrimeiroProjetoSpring.services.ProductService;
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
  * 4 - Criado classe de RECURSOS disponibilizados pela CATEGORIA.
@@ -61,7 +65,18 @@ public class ProductResource {
     }
     
     
+// Inserindo novo produto.
+// @PostMapping para inserção (método POST).    
+// @RequestBody para que o produto inserido reconheça e case com o objeto dto.     
 
+    @PostMapping
+    public ResponseEntity<ProductDTO> insert(@RequestBody ProductDTO dto){
+        dto = service.insert(dto);
+ // URI variável java para recurso de internet (URL).       
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
+       return ResponseEntity.created(uri).body(dto);
+    }
+    
 
 
     
