@@ -4,6 +4,7 @@ package Edu.PrimeiroProjetoSpring.services;
 import Edu.PrimeiroProjetoSpring.dto.CategoryDTO;
 import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
+import Edu.PrimeiroProjetoSpring.services.exceptions.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO finById(Long id) {
         Optional<Category> cat = repository.findById(id);
-        Category entity = cat.get();
+        Category entity = cat.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
         return new CategoryDTO(entity);
     }
     
