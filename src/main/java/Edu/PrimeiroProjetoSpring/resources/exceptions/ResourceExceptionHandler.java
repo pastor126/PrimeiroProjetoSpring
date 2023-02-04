@@ -9,9 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import Edu.PrimeiroProjetoSpring.services.exceptions.ResourceNotFoundException;
+import javax.servlet.http.HttpServletRequest;
 
-// Obs.: import javax não funcionou.
-import jakarta.servlet.http.HttpServletRequest;
 
 
 /**

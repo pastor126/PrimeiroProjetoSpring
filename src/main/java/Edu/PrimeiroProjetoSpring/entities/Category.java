@@ -2,15 +2,16 @@
 package Edu.PrimeiroProjetoSpring.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * 1 - Criado a classe de CATEGORIAS de produtos do projeto
@@ -25,7 +26,7 @@ import java.util.Objects;
 //Fazendo o relacionamento para o DB (***)
 //*** Informo que Produto é uma entidade.
 @Entity
-
+@Table(name = "tb_category")
 public class Category implements Serializable {
     
     private static final long serialVersionUID =1L;
@@ -39,7 +40,7 @@ public class Category implements Serializable {
 // Acrescentado a lista de produtos da categoria e evitando ciclo de consulta com a anotação @JsonIgnore.
     @JsonIgnore
 // Mapeando a lista de produtos para o DB informandos o relacionamento um pra muitos informando o atributo categoria do produto.   
-    @OneToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "categories")
     private List<Product> produtos = new ArrayList<>();
     
 

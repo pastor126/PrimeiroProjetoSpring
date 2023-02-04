@@ -1,13 +1,14 @@
-
 package Edu.PrimeiroProjetoSpring.services;
 
+import Edu.PrimeiroProjetoSpring.dto.CategoryDTO;
 import Edu.PrimeiroProjetoSpring.dto.ProductDTO;
+import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.entities.Product;
+import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
 import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
 import Edu.PrimeiroProjetoSpring.services.exceptions.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import static java.util.Collections.list;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,45 +22,59 @@ import org.springframework.transaction.annotation.Transactional;
 // Construindo a camada de serviços independente dos recursos e repositórios.
 @Service
 public class ProductService {
+
     @Autowired
     private ProductRepository repository;
-    @Transactional(readOnly = true)
-    public List<ProductDTO>findAll() {
-       List<Product> list = repository.findAll();
-       List<ProductDTO> listDTO = new ArrayList<>();
-       for(Product pdt : list){
-           listDTO.add(new ProductDTO(pdt));
-       }
-       return listDTO;
-    }
+    @Autowired
+    private CategoryRepository catRepos;
 
+    @Transactional(readOnly = true)
+    public List<ProductDTO> findAll() {
+        List<Product> list = repository.findAll();
+        
+             return list.stream().map(x -> new ProductDTO(x,x.getCategories())).toList();
+    }
+    
     @Transactional(readOnly = true)
     public ProductDTO finById(Long id) {
         Optional<Product> pdt = repository.findById(id);
         Product entity = pdt.orElseThrow(() -> new ResourceNotFoundException("Requisição não emcontrada."));
         return new ProductDTO(entity);
     }
+
     @Transactional
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
-        entity.setName(dto.getName());
-        entity.setPrice(dto.getPrice());
-        entity.setCategory(dto.getCategory());
+        converterDtoParaEntity(entity, dto);
+        
         repository.save(entity);
         return new ProductDTO(entity);
     }
-
+    
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-     try{
-        Product entity = repository.getReferenceById(id);
-        entity.setName(dto.getName());
-        entity = repository.save(entity);
-        return new ProductDTO(entity);
-      }
-     catch (EntityNotFoundException e){
-        throw new ResourceNotFoundException("Id não encontrado " + id);
-      }
+        try {
+            Product entity = repository.getReferenceById(id);
+            converterDtoParaEntity(entity, dto);
+            entity = repository.save(entity);
+            return new ProductDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id não encontrado " + id);
+        }
     }
+    
+    private void converterDtoParaEntity(Product entity, ProductDTO dto) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.setDate(dto.getDate());
+        
+        entity.getCategories().clear();
+        for (CategoryDTO catDto : dto.getCategories()) {
+            Category category = catRepos.getReferenceById(catDto.getId());
+            entity.getCategories().add(category);
+        }
+    }
+    
 }
-

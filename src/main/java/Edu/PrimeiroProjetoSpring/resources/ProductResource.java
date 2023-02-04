@@ -2,20 +2,12 @@
 package Edu.PrimeiroProjetoSpring.resources;
 
 import Edu.PrimeiroProjetoSpring.dto.ProductDTO;
-import Edu.PrimeiroProjetoSpring.entities.Product;
-import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
 import Edu.PrimeiroProjetoSpring.services.ProductService;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 /**
@@ -53,9 +45,7 @@ public class ProductResource {
     @GetMapping
     public ResponseEntity<List<ProductDTO>> findAll(){
 // -12 b-
-        List<ProductDTO> lista = service.findAll();
-        
-        
+        List<ProductDTO> lista = service.findAll();        
         return ResponseEntity.ok().body(lista);
     }
 // -8- Recebendo requisição pela variável "/{id}"    

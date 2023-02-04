@@ -4,6 +4,9 @@ package Edu.PrimeiroProjetoSpring.dto;
 import Edu.PrimeiroProjetoSpring.entities.Category;
 import Edu.PrimeiroProjetoSpring.entities.Product;
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *Criando DTO.
@@ -13,24 +16,37 @@ public class ProductDTO implements Serializable{
     private static final long serialVersionUID =1L;
     private Long id;
     private String name;
+    private String description;
     private Double price;
-    private Category category;
-
+    private String imgUrl;
+    private Instant date;
+    private Set<CategoryDTO> categories = new HashSet<>();
+            
     public ProductDTO() {
     }
 
-    public ProductDTO(Long id, String name, Double price, Category category) {
+    public ProductDTO(Long id, String name, String description, Double price, String imgUrl, Instant date) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.price = price;
-        this.category = category;
+        this.imgUrl = imgUrl;
+        this.date = date;
     }
 
-    public ProductDTO(Product entity){
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.price = entity.getPrice();
-        this.category = entity.getCategory();
+    public ProductDTO(Product pdt) {
+        id = pdt.getId();
+        name = pdt.getName();
+        description = pdt.getDescription();
+        price = pdt.getPrice();
+        imgUrl = pdt.getImgUrl();
+        date = pdt.getDate();
+   }
+
+    
+    public ProductDTO(Product pdt, Set<Category> categories ) {
+        this(pdt);
+        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
     }
 
     public Long getId() {
@@ -49,6 +65,14 @@ public class ProductDTO implements Serializable{
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Double getPrice() {
         return price;
     }
@@ -57,13 +81,26 @@ public class ProductDTO implements Serializable{
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public void setDate(Instant date) {
+        this.date = date;
+    }
+
+    public Set<CategoryDTO> getCategories() {
+        return categories;
+    }
+
     
     
 }

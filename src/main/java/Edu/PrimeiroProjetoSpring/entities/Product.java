@@ -1,14 +1,21 @@
 
 package Edu.PrimeiroProjetoSpring.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+
 
 /**
  * Criando Classe Produto.
@@ -19,6 +26,7 @@ import java.util.Objects;
 //Fazendo o relacionamento para o DB (***)
 //*** Informo que Produto é uma entidade.
 @Entity
+@Table(name = "tb_product")
 public class Product implements Serializable{
     private static final Long serialVersionUID = 1L;
 // *** Informo que o ID é a chave primária.
@@ -27,28 +35,34 @@ public class Product implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(columnDefinition = "TEXT")
+    private String description;
     private Double price;
-// *** Informando que o Id da Categoria é chave extrangeira com relação muitos para um.
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    private String imgUrl;
+// Anotação para que o postgres reconheça a data como UTC.
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant date;
+    
+// Criando o relacionamento muitos pra muitos no DB.
+    @ManyToMany
+    @JoinTable(name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )  
 
-    public Product() {
+// *** Informando que categories não pode repetir, por isso usar o SET.      
+    Set<Category> categories = new HashSet<>();
+
+     public Product() {
     }
 
-    public Product(Long id, String name, Double price, Category category) {
+    public Product(Long id, String name, String description, Double price, String imgUrl, Instant date) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.price = price;
-        this.category = category;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+        this.imgUrl = imgUrl;
+        this.date = date;
     }
 
     public Long getId() {
@@ -67,6 +81,14 @@ public class Product implements Serializable{
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Double getPrice() {
         return price;
     }
@@ -75,10 +97,37 @@ public class Product implements Serializable{
         this.price = price;
     }
 
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Instant getDate() {
+        return date;
+    }
+
+    public void setDate(Instant date) {
+        this.date = date;
+    }
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+     
+
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 43 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.name);
+        hash = 59 * hash + Objects.hashCode(this.description);
+        hash = 59 * hash + Objects.hashCode(this.price);
+        hash = 59 * hash + Objects.hashCode(this.imgUrl);
+        hash = 59 * hash + Objects.hashCode(this.date);
         return hash;
     }
 
@@ -94,18 +143,8 @@ public class Product implements Serializable{
             return false;
         }
         final Product other = (Product) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.price, other.price)) {
-            return false;
-        }
-        return Objects.equals(this.category, other.category);
+        return Objects.equals(this.id, other.id);
     }
     
-    
-    
 }
+
