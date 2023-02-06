@@ -7,11 +7,13 @@ import Edu.PrimeiroProjetoSpring.entities.Product;
 import Edu.PrimeiroProjetoSpring.repositories.CategoryRepository;
 import Edu.PrimeiroProjetoSpring.repositories.ProductRepository;
 import Edu.PrimeiroProjetoSpring.services.exceptions.ResourceNotFoundException;
+import static java.util.Collections.list;
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,10 +31,9 @@ public class ProductService {
     private CategoryRepository catRepos;
 
     @Transactional(readOnly = true)
-    public List<ProductDTO> findAll() {
-        List<Product> list = repository.findAll();
-        
-             return list.stream().map(x -> new ProductDTO(x,x.getCategories())).toList();
+    public Page<ProductDTO> findAllPaged(Pageable pageable) {
+       Page<Product> list = repository.findAll(pageable);
+       return list.map(x -> new ProductDTO(x));
     }
     
     @Transactional(readOnly = true)

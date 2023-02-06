@@ -4,8 +4,11 @@ package Edu.PrimeiroProjetoSpring.resources;
 import Edu.PrimeiroProjetoSpring.dto.ProductDTO;
 import Edu.PrimeiroProjetoSpring.services.ProductService;
 import java.net.URI;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,10 +46,9 @@ public class ProductResource {
     
 // -7- Recebendo requisição pelo "/categories" o ResponseEntity devolve uma lista de CATEGORIAS.    
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> findAll(){
-// -12 b-
-        List<ProductDTO> lista = service.findAll();        
-        return ResponseEntity.ok().body(lista);
+    public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable){
+        Page<ProductDTO> list = service.findAllPaged(pageable);
+        return ResponseEntity.ok().body(list);
     }
 // -8- Recebendo requisição pela variável "/{id}"    
     @GetMapping(value = "/{id}")
